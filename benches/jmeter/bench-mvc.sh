@@ -1,6 +1,6 @@
 cd ../../ || exit
 
-./gradlew runMVC -DbenchTimeout=1 -Dorg.gradle.jvmargs="-Xms512M -Xmx16g" > ../benches/jmeter/spring-mvc.log &
+./gradlew runMVC -DbenchTimeout=1 -Dorg.gradle.jvmargs="-Xms512M -Xmx16g" > benches/jmeter/spring-mvc.log &
 
 PID_GRADLE=$!
 
@@ -53,7 +53,7 @@ wait $PID_GRADLE
 
 cd ../../ || exit
 
-./gradlew runMVCVirtual -DbenchTimeout=1 -Dorg.gradle.jvmargs="-Xms512M -Xmx16g" > ../benches/jmeter/spring-mvc.log &
+./gradlew runMVCVirtual -DbenchTimeout=1 -Dorg.gradle.jvmargs="-Xms512M -Xmx16g" > benches/jmeter/spring-mvc.log &
 
 PID_GRADLE=$!
 

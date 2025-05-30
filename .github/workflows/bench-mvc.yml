@@ -23,7 +23,7 @@ jobs:
       - name: Run Benchmarks
         run: |
           cd $GITHUB_WORKSPACE/benches/ab
-          chmod +x ./bench-mvc.sh ../../code/gradlew ./run-ab.sh
+          chmod +x ./bench-mvc.sh ../../gradlew ./run-ab.sh
           ./bench-mvc.sh
 
       - name: Upload result artifacts
@@ -66,7 +66,7 @@ jobs:
         run: |
           export PATH=$GITHUB_WORKSPACE/apache-jmeter-5.6.3/bin:$PATH
           cd $GITHUB_WORKSPACE/benches/jmeter
-          chmod +x ./bench-mvc.sh ../../code/gradlew ./run-jmeter.sh
+          chmod +x ./bench-mvc.sh ../../gradlew ./run-jmeter.sh
           ./bench-mvc.sh
 
       - name: List Github workspace contents
