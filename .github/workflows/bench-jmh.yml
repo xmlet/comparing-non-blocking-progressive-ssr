@@ -1,0 +1,37 @@
+name: Benchmark JMH
+
+on:
+  workflow_dispatch:
+
+jobs:
+  jmh:
+    runs-on: ubuntu-22.04
+    env:
+      GH: true
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup java
+        uses: actions/setup-java@v4
+        with:
+          java-version: 21
+          distribution: corretto
+
+      - name: Run Benchmarks
+        run: |
+          cd $GITHUB_WORKSPACE/benches/jmh
+          chmod +x ./bench-jmh.sh ../../gradlew
+          ./bench-jmh.sh
+
+      - name: Upload result artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: benchmark-results-jmh-stocks-${{runner.os}}
+          path: ${{ github.workspace }}/results/results-jmh-presentations.csv
+
+      - name: Upload result artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: benchmark-results-jmh-stocks-${{runner.os}}
+          path: ${{ github.workspace }}/results/results-jmh-stocks.csv
