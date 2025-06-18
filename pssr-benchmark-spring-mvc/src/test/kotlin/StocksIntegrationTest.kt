@@ -22,9 +22,6 @@ import java.util.Locale
 import java.util.stream.Collectors
 import java.util.stream.Stream
 import kotlin.jvm.java
-import kotlin.test.Test
-import kotlin.test.assertEquals
-import kotlin.test.assertNotNull
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 open class StocksIntegrationTest {

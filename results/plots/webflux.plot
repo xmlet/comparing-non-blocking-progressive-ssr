@@ -16,7 +16,7 @@ set xlabel "Approach"
 set ylabel "req/sec"
 set grid ytics
 
-set key outside right top vertical Left reverse noenhanced autotitle columnhead
+set key title "Concurrent Users" outside right top vertical Left reverse noenhanced autotitle columnhead
 
 set palette defined (1 '#e74c3c', 2 '#3498db', 3 '#2ecc71', 4 '#f39c12', 5 '#9b59b6')
 

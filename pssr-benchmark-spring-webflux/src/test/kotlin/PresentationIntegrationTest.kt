@@ -191,7 +191,7 @@ internal class PresentationIntegrationTest {
     private fun getResponse(route: String): String {
         return String(
             client!!.get()
-                .uri(URI.create("$route"))
+                .uri(URI.create(route))
                 .accept(MediaType.ALL)
                 .exchange()
                 .expectStatus()

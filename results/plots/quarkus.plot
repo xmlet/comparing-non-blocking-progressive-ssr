@@ -15,7 +15,7 @@ set xlabel "Approach"
 set ylabel "req/sec"
 set grid ytics
 
-set key outside right top vertical Left reverse noenhanced autotitle columnhead
+set key title "Concurrent Users" outside right top vertical Left reverse noenhanced autotitle columnhead
 
 plot "presentations-quarkus.csv" using 2:xtic(1) title columnheader(2), \
      for [i=3:*] '' using i title columnheader(i)

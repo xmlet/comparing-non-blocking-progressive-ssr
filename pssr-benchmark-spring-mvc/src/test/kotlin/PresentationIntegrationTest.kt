@@ -117,7 +117,7 @@ open class PresentationIntegrationTest {
             webTestClient!!.target(URI.create("$baseUrl$route"))
                 .request()
                 .accept(MediaType.WILDCARD)
-                .method(jakarta.ws.rs.HttpMethod.GET)
+                .method(HttpMethod.GET)
                 .readEntity(String::class.java)
                 .toByteArray(),
         )
