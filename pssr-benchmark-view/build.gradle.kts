@@ -59,7 +59,6 @@ tasks.register<Exec>("benchJMHPresentations") {
         "-f", "1", // forks
         "-r", "2s", // time for each iteration
         "-w", "2s", // warmup time
-        "-t", "8", // threads
         "-rff", "${layout.projectDirectory.asFile.parentFile}/results/results-jmh-presentations.csv",
         "-rf", "csv", // result format
         "-tu", "ms", // time unit
@@ -78,7 +77,6 @@ tasks.register<Exec>("benchJMHStocks") {
         "-f", "1", // forks
         "-r", "2s", // time for each iteration
         "-w", "2s", // warmup time
-        "-t", "8", // threads
         "-rff", "${layout.projectDirectory.asFile.parentFile}/results/results-jmh-stocks.csv",
         "-rf", "csv", // result format
         "-tu", "ms", // time unit
