@@ -1,6 +1,7 @@
 package benchmark.model
 
 data class Stock(
+    val index: Long,
     val name: String,
     val name2: String,
     val url: String,

@@ -8,7 +8,7 @@ import io.jstach.jstachio.escapers.PlainText
 import java.io.IOException
 import java.io.OutputStream
 
-object JStachioView {
+object PresentationsJstachio {
     var presentationsTemplate: JStachioPresentationsTemplate = JStachioPresentationsTemplate.of()
 
     @Throws(IOException::class)

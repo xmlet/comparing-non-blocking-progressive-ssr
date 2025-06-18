@@ -14,7 +14,7 @@ import kotlin.test.assertNotNull
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 open class StockIntegrationTest {
     init {
-        System.setProperty("benchTimeout", "10")
+        System.setProperty("benchTimeout", "0")
     }
 
     @Test

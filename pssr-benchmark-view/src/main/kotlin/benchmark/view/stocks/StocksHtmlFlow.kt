@@ -106,8 +106,7 @@ object StocksHtmlFlow {
                                 var index = 0
                                 model
                                     .doOnNext {
-                                        val dto = StockDto(it, ++index)
-                                        stockPartialAsync.renderAsync(dto).thenApply { frag -> tbody.raw(frag) }
+                                        stockPartialAsync.renderAsync(it).thenApply { frag -> tbody.raw(frag) }
                                     }
                                     .doOnComplete { onCompletion.finish() }
                                     .subscribe()
@@ -158,10 +157,8 @@ object StocksHtmlFlow {
                         }
                         tbody {
                             suspending { model: Flow<Stock> ->
-                                var index = 0
                                 model.collect {
-                                    val dto = StockDto(it, ++index)
-                                    stockPartialAsync.renderAsync(dto).thenApply { frag -> raw(frag) }
+                                    stockPartialAsync.renderAsync(it).thenApply { frag -> raw(frag) }
                                 }
                             }
                         }
@@ -210,11 +207,9 @@ object StocksHtmlFlow {
                         }
                         tbody {
                             dyn { model: Observable<Stock> ->
-                                var index = 0
                                 model
                                     .doOnNext {
-                                        val dto = StockDto(it, ++index)
-                                        stockPartialAsync.renderAsync(dto).thenApply { frag -> raw(frag) }
+                                        stockPartialAsync.renderAsync(it).thenApply { frag -> raw(frag) }
                                     }
                                     .blockingLast()
                             }
@@ -264,9 +259,8 @@ object StocksHtmlFlow {
                         }
                         tbody {
                             dyn { model: Iterable<Stock> ->
-                                model.forEachIndexed { index, stock ->
-                                    val dto = StockDto(stock, index + 1)
-                                    raw(stockPartialSync.render(dto))
+                                model.forEach { stock ->
+                                    raw(stockPartialSync.render(stock))
                                 }
                             }
                         }
@@ -275,48 +269,48 @@ object StocksHtmlFlow {
             }
         }.threadSafe()
 
-    private val stockPartialSync: HtmlView<StockDto?> =
-        HtmlFlow.view<StockDto> { view -> view.stockFragment() }.threadSafe()
+    private val stockPartialSync: HtmlView<Stock?> =
+        HtmlFlow.view<Stock> { view -> view.stockFragment() }.threadSafe()
 
     private val stockPartialAsync =
-        HtmlFlow.viewAsync<StockDto> { view -> view.stockFragment() }.threadSafe()
+        HtmlFlow.viewAsync<Stock> { view -> view.stockFragment() }.threadSafe()
 
     fun HtmlPage.stockFragment() {
         tr()
-            .dyn { model: StockDto ->
-                if (model.index % 2 == 0) {
+            .dyn { model: Stock ->
+                if (model.index % 2 == 0L) {
                     attrClass("even")
                 } else {
                     attrClass("odd")
                 }
             }
-            .td { dyn { model: StockDto -> raw(model.index.toString()) } }
+            .td { dyn { model: Stock -> raw(model.index.toString()) } }
             .td {
                 a {
-                    dyn { model: StockDto ->
-                        attrHref("/stocks/${model.stock.symbol}")
-                        raw(model.stock.symbol)
+                    dyn { model: Stock ->
+                        attrHref("/stocks/${model.symbol}")
+                        raw(model.symbol)
                     }
                 }
             }
             .td {
                 a {
-                    dyn { model: StockDto ->
-                        attrHref(model.stock.url)
-                        raw(model.stock.name)
+                    dyn { model: Stock ->
+                        attrHref(model.url)
+                        raw(model.name)
                     }
                 }
             }
             .td {
                 strong {
-                    dyn { model: StockDto ->
-                        raw(model.stock.price.toString())
+                    dyn { model: Stock ->
+                        raw(model.price.toString())
                     }
                 }
             }
             .td {
-                dyn { model: StockDto ->
-                    val change = model.stock.change
+                dyn { model: Stock ->
+                    val change = model.change
                     if (change < 0) {
                         attrClass("minus")
                     }
@@ -324,8 +318,8 @@ object StocksHtmlFlow {
                 }
             }
             .td {
-                dyn { model: StockDto ->
-                    val ratio = model.stock.ratio
+                dyn { model: Stock ->
+                    val ratio = model.ratio
                     if (ratio < 0) {
                         attrClass("minus")
                     }

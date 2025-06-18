@@ -4,8 +4,8 @@ import benchmark.repository.StockRepository
 import benchmark.view.appendable.AppendableSink
 import benchmark.view.appendable.OutputStreamSink
 import benchmark.view.appendable.WriterSink
-import benchmark.view.stocks.JStachioView
-import benchmark.view.stocks.JStachioView.StocksModel
+import benchmark.view.stocks.StocksJstachio
+import benchmark.view.stocks.StocksJstachio.StocksModel
 import benchmark.view.stocks.StocksHtmlFlow
 import benchmark.view.stocks.StocksKotlinX
 import com.fizzed.rocker.runtime.OutputStreamOutput
@@ -162,7 +162,7 @@ class StocksRoutes(
         val out =
             OutputStreamSink().also {
                 scope.launch {
-                    JStachioView.stocksWrite(stocksModelJStachio, it)
+                    StocksJstachio.stocksWrite(stocksModelJStachio, it)
                     it.close()
                 }
             }
@@ -176,7 +176,7 @@ class StocksRoutes(
         val out =
             OutputStreamSink().also {
                 Thread.startVirtualThread {
-                    JStachioView.stocksWrite(stocksModelJStachio, it)
+                    StocksJstachio.stocksWrite(stocksModelJStachio, it)
                     it.close()
                 }
             }
@@ -442,7 +442,7 @@ class StocksRoutes(
         val view =
             AppendableSink().also {
                 Thread.startVirtualThread {
-                    StocksKotlinX.kotlinXIterable(it, stocksIter)
+                    StocksKotlinX.kotlinXIter(it, stocksIter)
                     it.close()
                 }
             }

@@ -99,8 +99,8 @@ object StocksKotlinX {
                         }
                     }
                     tbody {
-                        Observable.zip(stocks, Observable.range(0, Int.MAX_VALUE)) { stock, idx -> StockDto(stock, idx + 1) }
-                            .doOnNext { dto -> stockFragment(dto) }
+                        stocks
+                            .doOnNext { stock -> stockFragment(stock) }
                             .doOnComplete { sink.close() }
                             .subscribe()
                     }
@@ -154,8 +154,8 @@ object StocksKotlinX {
                         }
                     }
                     tbody {
-                        Observable.zip(stocks, Observable.range(0, Int.MAX_VALUE)) { stock, idx -> StockDto(stock, idx + 1) }
-                            .doOnNext { dto -> stockFragment(dto) }
+                        stocks
+                            .doOnNext { stock -> stockFragment(stock) }
                             .blockingLast()
                     }
                 }
@@ -163,7 +163,7 @@ object StocksKotlinX {
         }
     }
 
-    fun kotlinXIterable(
+    fun kotlinXIter(
         sink: Appendable,
         stocks: Iterable<Stock>,
     ) {
@@ -208,9 +208,8 @@ object StocksKotlinX {
                         }
                     }
                     tbody {
-                        stocks.forEachIndexed { index, stock ->
-                            val dto = StockDto(stock, index + 1)
-                            stockFragment(dto)
+                        stocks.forEach {
+                            stockFragment(it)
                         }
                     }
                 }
@@ -218,34 +217,34 @@ object StocksKotlinX {
         }
     }
 
-    private fun TBODY.stockFragment(stock: StockDto) {
+    private fun TBODY.stockFragment(stock: Stock) {
         tr {
-            if (stock.index % 2 == 0) {
-                classes = setOf("even")
+            classes = if (stock.index % 2 == 0L) {
+                setOf("even")
             } else {
-                classes = setOf("odd")
+                setOf("odd")
             }
             td { +stock.index.toString() }
             td {
-                a(href = "/stocks/${stock.stock.symbol}") {
-                    +stock.stock.symbol
+                a(href = "/stocks/${stock.symbol}") {
+                    +stock.symbol
                 }
             }
             td {
-                a(href = stock.stock.url) {
-                    +stock.stock.name
+                a(href = stock.url) {
+                    +stock.name
                 }
             }
             td {
-                strong { +stock.stock.price.toString() }
+                strong { +stock.price.toString() }
             }
             td {
-                val change = stock.stock.change
+                val change = stock.change
                 if (change < 0) classes = setOf("minus")
                 +change.toString()
             }
             td {
-                val ratio = stock.stock.ratio
+                val ratio = stock.ratio
                 if (ratio < 0) classes = setOf("minus")
                 +ratio.toString()
             }

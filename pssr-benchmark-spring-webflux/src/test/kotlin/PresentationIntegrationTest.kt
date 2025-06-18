@@ -209,7 +209,6 @@ internal class PresentationIntegrationTest {
                 .bindToApplicationContext(context!!)
                 .configureClient()
                 .baseUrl(baseURL)
-                .defaultHeader("Accept", "*/*")
                 .build()
     }
 

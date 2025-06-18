@@ -2,7 +2,7 @@ package benchmark.mvc.controllers
 
 import benchmark.controller.presentations.sync.outputStreamWriter
 import benchmark.repository.StockRepository
-import benchmark.view.stocks.JStachioView
+import benchmark.view.stocks.StocksJstachio
 import benchmark.view.stocks.StocksHtmlFlow
 import benchmark.view.stocks.StocksKotlinX
 import com.fizzed.rocker.runtime.OutputStreamOutput
@@ -38,7 +38,7 @@ class StocksController(
      * Data models
      */
     private val stocksIter = stocks.findAllIterable()
-    private val stocksModelJStachio = JStachioView.StocksModel(stocksIter)
+    private val stocksModelJStachio = StocksJstachio.StocksModel(stocksIter)
     private val stocksModelMap: Map<String, Any> = mutableMapOf("stocks" to stocksIter)
     private val stocksModelVelocity = VelocityContext(stocksModelMap)
     private val stocksModelThymeleaf = Context().apply { setVariable("stocks", stocksIter) }
@@ -59,7 +59,7 @@ class StocksController(
     fun handleTemplateJStachioSync(): ResponseEntity<StreamingResponseBody> {
         val stream =
             StreamingResponseBody { out ->
-                JStachioView.stocksWrite(stocksModelJStachio, out)
+                StocksJstachio.stocksWrite(stocksModelJStachio, out)
             }
         return ResponseEntity.ok(stream)
     }
@@ -125,7 +125,7 @@ class StocksController(
     fun handleTemplateKotlinXSync(): ResponseEntity<StreamingResponseBody> {
         val stream =
             StreamingResponseBody { out ->
-                StocksKotlinX.kotlinXIterable(out.outputStreamWriter(), stocksIter)
+                StocksKotlinX.kotlinXIter(out.outputStreamWriter(), stocksIter)
             }
         return ResponseEntity.ok(stream)
     }

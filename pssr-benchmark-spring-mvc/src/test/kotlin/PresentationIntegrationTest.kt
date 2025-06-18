@@ -125,7 +125,7 @@ open class PresentationIntegrationTest {
 
     @BeforeAll
     fun startupSpring() {
-        System.setProperty("benchTimeout", "10")
+        System.setProperty("benchTimeout", "0")
         context = SpringApplication.run(Launch::class.java)
         webTestClient =
             ClientBuilder.newClient(ClientConfig())

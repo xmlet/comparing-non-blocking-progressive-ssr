@@ -2,7 +2,6 @@ plugins {
     kotlin("jvm")
     id("org.springframework.boot") version "3.4.5"
     id("io.spring.dependency-management") version "1.1.7"
-    id("me.champeau.jmh") version "0.7.3"
 //    id("com.gradleup.shadow") version "8.3.6"
 }
 
@@ -23,10 +22,6 @@ dependencies {
 
     implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
     implementation("org.springframework.boot:spring-boot-starter-jersey")
-
-    implementation("org.openjdk.jmh:jmh-core:1.35")
-    implementation("org.openjdk.jmh:jmh-core-benchmarks:1.35")
-    implementation("org.openjdk.jmh:jmh-generator-annprocess:1.35")
     implementation("org.springframework.boot:spring-boot-starter-test")
 
     testImplementation(kotlin("test"))

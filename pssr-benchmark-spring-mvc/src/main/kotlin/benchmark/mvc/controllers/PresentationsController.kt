@@ -2,7 +2,7 @@ package benchmark.mvc.controllers
 
 import benchmark.controller.presentations.sync.outputStreamWriter
 import benchmark.repository.PresentationRepository
-import benchmark.view.presentations.JStachioView
+import benchmark.view.presentations.PresentationsJstachio
 import benchmark.view.presentations.PresentationsHtmlFlow.htmlFlowTemplateIter
 import benchmark.view.presentations.PresentationsKotlinX.kotlinXIter
 import com.fizzed.rocker.runtime.OutputStreamOutput
@@ -38,7 +38,7 @@ class PresentationsController(
      * Data models
      */
     private val presentationsIter = presentations.findAllIterable()
-    private val presentationsModelJStachio = JStachioView.PresentationsModel(presentationsIter)
+    private val presentationsModelJStachio = PresentationsJstachio.PresentationsModel(presentationsIter)
     private val presentationsModelMap: Map<String, Any> = mutableMapOf("presentations" to presentationsIter)
     private val presentationsModelVelocity = VelocityContext(presentationsModelMap)
     private val presentationsModelThymeleaf = Context().apply { setVariable("presentations", presentationsIter) }
@@ -59,7 +59,7 @@ class PresentationsController(
     fun handleTemplateJStachioSync(): ResponseEntity<StreamingResponseBody> {
         val stream =
             StreamingResponseBody { out ->
-                JStachioView.presentationsWrite(presentationsModelJStachio, out)
+                PresentationsJstachio.presentationsWrite(presentationsModelJStachio, out)
             }
         return ResponseEntity.ok(stream)
     }

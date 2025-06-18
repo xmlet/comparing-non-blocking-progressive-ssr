@@ -12,7 +12,7 @@ while ! grep -m1 'Netty started on port 8080' < spring-webflux.log; do
 done
 
 ROUTES=(
-  presentations/thymeleaf
+     presentations/thymeleaf
   #   presentations/thymeleaf/sync
      presentations/thymeleaf/virtualSync
      presentations/htmlFlow
@@ -29,7 +29,7 @@ ROUTES=(
   #   presentations/pebble/sync
      presentations/pebble/virtualSync
   #   presentations/freemarker/sync
-#     presentations/freemarker/virtualSync
+     presentations/freemarker/virtualSync
   #   presentations/trimou/sync
      presentations/trimou/virtualSync
   #   presentations/velocity/sync
@@ -42,7 +42,7 @@ ROUTES=(
      stocks/htmlFlow/suspending
      stocks/htmlFlow/sync
      stocks/htmlFlow/virtualSync
-  #   stocks/kotlinx
+     stocks/kotlinx
   #   stocks/kotlinx/sync
      stocks/kotlinx/virtualSync
      stocks/rocker/sync
@@ -52,7 +52,7 @@ ROUTES=(
   #   stocks/pebble/sync
      stocks/pebble/virtualSync
   #   stocks/freemarker/sync
-#     stocks/freemarker/virtualSync
+     stocks/freemarker/virtualSync
   #   stocks/trimou/sync
      stocks/trimou/virtualSync
   #   stocks/velocity/sync

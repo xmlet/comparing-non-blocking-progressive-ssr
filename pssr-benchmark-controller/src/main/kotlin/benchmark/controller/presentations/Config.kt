@@ -88,7 +88,6 @@ val DEFAULT_VELOCITY_ENGINE =
         setProperty("resource.loader.class.path", "classpath:/templates/velocity/")
         setProperty("resource.loader.class.cache", "false")
         setProperty("view-names", "*-velocity")
-        setProperty("toolboxConfigLocation", "/templates/velocity/toolbox.xml")
         setProperty("layout-enabled", "false")
         setProperty("cache", "false")
         setProperty("charset", "UTF-8")

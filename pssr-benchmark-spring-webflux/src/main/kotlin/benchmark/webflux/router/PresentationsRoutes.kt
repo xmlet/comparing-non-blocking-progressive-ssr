@@ -4,8 +4,8 @@ import benchmark.repository.PresentationRepository
 import benchmark.view.appendable.AppendableSink
 import benchmark.view.appendable.OutputStreamSink
 import benchmark.view.appendable.WriterSink
-import benchmark.view.presentations.JStachioView
-import benchmark.view.presentations.JStachioView.PresentationsModel
+import benchmark.view.presentations.PresentationsJstachio
+import benchmark.view.presentations.PresentationsJstachio.PresentationsModel
 import benchmark.view.presentations.PresentationsHtmlFlow
 import benchmark.view.presentations.PresentationsKotlinX
 import com.fizzed.rocker.runtime.OutputStreamOutput
@@ -162,7 +162,7 @@ class PresentationsRoutes(
         val out =
             OutputStreamSink().also {
                 scope.launch {
-                    JStachioView.presentationsWrite(presentationsModelJStachio, it)
+                    PresentationsJstachio.presentationsWrite(presentationsModelJStachio, it)
                     it.close()
                 }
             }
@@ -176,7 +176,7 @@ class PresentationsRoutes(
         val out =
             OutputStreamSink().also {
                 Thread.startVirtualThread {
-                    JStachioView.presentationsWrite(presentationsModelJStachio, it)
+                    PresentationsJstachio.presentationsWrite(presentationsModelJStachio, it)
                     it.close()
                 }
             }

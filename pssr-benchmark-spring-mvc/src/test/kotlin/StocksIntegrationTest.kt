@@ -4,16 +4,23 @@ import jakarta.ws.rs.HttpMethod
 import jakarta.ws.rs.client.Client
 import jakarta.ws.rs.client.ClientBuilder
 import jakarta.ws.rs.core.MediaType
+import org.assertj.core.api.BDDAssertions
 import org.glassfish.jersey.client.ClientConfig
 import org.junit.jupiter.api.AfterAll
 import org.junit.jupiter.api.BeforeAll
+import org.junit.jupiter.api.DisplayName
+import org.junit.jupiter.api.Named
 import org.junit.jupiter.api.TestInstance
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.Arguments
+import org.junit.jupiter.params.provider.MethodSource
 import org.springframework.boot.SpringApplication
 import org.springframework.context.ConfigurableApplicationContext
 import java.net.URI
 import java.util.Arrays
 import java.util.Locale
 import java.util.stream.Collectors
+import java.util.stream.Stream
 import kotlin.jvm.java
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -21,280 +28,93 @@ import kotlin.test.assertNotNull
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 open class StocksIntegrationTest {
-    @Test
-    fun testRockerTemplate() {
-        val response = getResponse("/stocks/rocker")
-        assertNotNull(response)
-        val trimmedResponse = trimLines(response)
-        val trimmedExpected = trimLines(wellFormedHtmlAssertion())
-        assertEquals(trimmedExpected, trimmedResponse)
+
+    @DisplayName("Should generated html for each template")
+    @ParameterizedTest
+    @MethodSource("htmlTemplates")
+    fun test_endpoint_for_template_for_response(r: RouteAndExpected) {
+        val response: String = getResponse(r.route.toString())
+
+        BDDAssertions.then(trimLines(response))
+            .isNotNull()
+            .isNotBlank()
+            .isEqualTo(trimLines(r.expected.toString()))
     }
 
-    @Test
-    fun testRockerTemplateOk() {
-        webTestClient!!.target(URI.create("$baseUrl/stocks/rocker"))
-            .request()
-            .accept(MediaType.WILDCARD)
-            .method(HttpMethod.GET)
-            .also { response ->
-                assertNotNull(response)
-                assertEquals(200, response.status)
-            }
+    @DisplayName("Should return 200 ok status code for all requests")
+    @ParameterizedTest
+    @MethodSource("htmlTemplates")
+    fun test_endpoint_for_template_ok(r: RouteAndExpected) {
+        val res =
+            webTestClient!!.target("$baseUrl${r.route}")
+                .request()
+                .accept(MediaType.WILDCARD)
+                .method(HttpMethod.GET)
+                .status
+
+        BDDAssertions.then(res)
+            .isNotNull()
+            .isEqualTo(200)
     }
 
-    @Test
-    fun testJstachioTemplate() {
-        val response = getResponse("/stocks/jstachio")
-        assertNotNull(response)
-        val trimmedResponse = trimLines(response)
-        val trimmedExpected = trimLines(wellFormedHtmlAssertion())
-        assertEquals(trimmedExpected, trimmedResponse)
+    private fun htmlTemplates(): Stream<Arguments?> {
+        return Stream.of<Arguments?>(
+            Arguments.of(
+                Named.of<RouteAndExpected?>(
+                    "Rocker Sync",
+                    RouteAndExpected("/stocks/rocker", wellFormedHtmlAssertion()),
+                ),
+            ),
+            Arguments.of(
+                Named.of<RouteAndExpected?>(
+                    "JStachio Sync",
+                    RouteAndExpected("/stocks/jstachio", wellFormedHtmlAssertion()),
+                ),
+            ),
+            Arguments.of(
+                Named.of<RouteAndExpected?>(
+                    "Pebble Sync",
+                    RouteAndExpected("/stocks/pebble", wellFormedHtmlAssertion()),
+                ),
+            ),
+            Arguments.of(
+                Named.of<RouteAndExpected?>(
+                    "Freemarker Sync",
+                    RouteAndExpected("/stocks/freemarker", wellFormedHtmlAssertion()),
+                ),
+            ),
+            Arguments.of(
+                Named.of<RouteAndExpected?>(
+                    "Trimou Sync",
+                    RouteAndExpected("/stocks/trimou", wellFormedHtmlAssertion()),
+                ),
+            ),
+            Arguments.of(
+                Named.of<RouteAndExpected?>(
+                    "Velocity Sync",
+                    RouteAndExpected("/stocks/velocity", wellFormedHtmlAssertion()),
+                ),
+            ),
+            Arguments.of(
+                Named.of<RouteAndExpected?>(
+                    "Thymeleaf Sync",
+                    RouteAndExpected("/stocks/thymeleaf", wellFormedHtmlAssertion()),
+                ),
+            ),
+            Arguments.of(
+                Named.of<RouteAndExpected?>(
+                    "HtmlFlow Sync",
+                    RouteAndExpected("/stocks/htmlFlow", wellFormedHtmlAssertion()),
+                ),
+            ),
+            Arguments.of(
+                Named.of<RouteAndExpected?>(
+                    "KotlinX Sync",
+                    RouteAndExpected("/stocks/kotlinx", wellFormedHtmlAssertion().replace("<!DOCTYPE html>", "")),
+                ),
+            ),
+        )
     }
-
-    @Test
-    fun testJstachioTemplateOk() {
-        webTestClient!!.target(URI.create("$baseUrl/stocks/jstachio"))
-            .request()
-            .accept(MediaType.WILDCARD)
-            .method(HttpMethod.GET)
-            .also { response ->
-                assertNotNull(response)
-                assertEquals(200, response.status)
-            }
-    }
-
-    @Test
-    fun testPebbleTemplate() {
-        val response = getResponse("/stocks/pebble")
-        assertNotNull(response)
-        val trimmedResponse = trimLines(response)
-        val trimmedExpected = trimLines(wellFormedHtmlAssertion())
-        assertEquals(trimmedExpected, trimmedResponse)
-    }
-
-    @Test
-    fun testPebbleTemplateOk() {
-        webTestClient!!.target(URI.create("$baseUrl/stocks/pebble"))
-            .request()
-            .accept(MediaType.WILDCARD)
-            .method(HttpMethod.GET)
-            .also { response ->
-                assertNotNull(response)
-                assertEquals(200, response.status)
-            }
-    }
-
-    @Test
-    fun testFreemarkerTemplate() {
-        val response = getResponse("/stocks/freemarker")
-        assertNotNull(response)
-        val trimmedResponse = trimLines(response)
-        val trimmedExpected = trimLines(wellFormedHtmlAssertion())
-        assertEquals(trimmedExpected, trimmedResponse)
-    }
-
-    @Test
-    fun testFreemarkerTemplateOk() {
-        webTestClient!!.target(URI.create("$baseUrl/stocks/freemarker"))
-            .request()
-            .accept(MediaType.WILDCARD)
-            .method(HttpMethod.GET)
-            .also { response ->
-                assertNotNull(response)
-                assertEquals(200, response.status)
-            }
-    }
-
-    @Test
-    fun testTrimouTemplate() {
-        val response = getResponse("/stocks/trimou")
-        assertNotNull(response)
-        val trimmedResponse = trimLines(response)
-        val trimmedExpected = trimLines(wellFormedHtmlAssertion())
-        assertEquals(trimmedExpected, trimmedResponse)
-    }
-
-    @Test
-    fun testTrimouTemplateOk() {
-        webTestClient!!.target(URI.create("$baseUrl/stocks/trimou"))
-            .request()
-            .accept(MediaType.WILDCARD)
-            .method(HttpMethod.GET)
-            .also { response ->
-                assertNotNull(response)
-                assertEquals(200, response.status)
-            }
-    }
-
-    @Test
-    fun testVelocityTemplate() {
-        val response = getResponse("/stocks/velocity")
-        assertNotNull(response)
-        val trimmedResponse = trimLines(response)
-        val trimmedExpected = trimLines(wellFormedHtmlAssertion())
-        assertEquals(trimmedExpected, trimmedResponse)
-    }
-
-    @Test
-    fun testVelocityTemplateOk() {
-        webTestClient!!.target(URI.create("$baseUrl/stocks/velocity"))
-            .request()
-            .accept(MediaType.WILDCARD)
-            .method(HttpMethod.GET)
-            .also { response ->
-                assertNotNull(response)
-                assertEquals(200, response.status)
-            }
-    }
-
-    @Test
-    fun testThymeleafTemplate() {
-        val response = getResponse("/stocks/thymeleaf")
-        assertNotNull(response)
-        val trimmedResponse = trimLines(response)
-        val trimmedExpected = trimLines(wellFormedHtmlAssertion())
-        assertEquals(trimmedExpected, trimmedResponse)
-    }
-
-    @Test
-    fun testThymeleafTemplateOk() {
-        webTestClient!!.target(URI.create("$baseUrl/stocks/thymeleaf"))
-            .request()
-            .accept(MediaType.WILDCARD)
-            .method(HttpMethod.GET)
-            .also { response ->
-                assertNotNull(response)
-                assertEquals(200, response.status)
-            }
-    }
-
-    @Test
-    fun testKotlinxTemplate() {
-        val response = getResponse("/stocks/kotlinx")
-        assertNotNull(response)
-        val trimmedResponse = trimLines(response)
-        val trimmedExpected = trimLines(wellFormedHtmlAssertion().replace("<!DOCTYPE html>", ""))
-        assertEquals(trimmedExpected, trimmedResponse)
-    }
-
-    @Test
-    fun testKotlinxTemplateOk() {
-        webTestClient!!.target(URI.create("$baseUrl/stocks/kotlinx"))
-            .request()
-            .accept(MediaType.WILDCARD)
-            .method(HttpMethod.GET)
-            .also { response ->
-                assertNotNull(response)
-                assertEquals(200, response.status)
-            }
-    }
-
-    @Test
-    fun testHtmlFlowTemplate() {
-        val response = getResponse("/stocks/htmlFlow")
-        assertNotNull(response)
-        val trimmedResponse = trimLines(response)
-        val trimmedExpected = trimLines(wellFormedHtmlAssertion())
-        assertEquals(trimmedExpected, trimmedResponse)
-    }
-
-    @Test
-    fun testHtmlFlowTemplateOk() {
-        webTestClient!!.target(URI.create("$baseUrl/stocks/htmlFlow"))
-            .request()
-            .accept(MediaType.WILDCARD)
-            .method(HttpMethod.GET)
-            .also { response ->
-                assertNotNull(response)
-                assertEquals(200, response.status)
-            }
-    }
-//    @DisplayName("Should generated html for each template")
-//    @ParameterizedTest
-//    @MethodSource("htmlTemplates")
-//    fun test_endpoint_for_template_for_response(r: RouteAndExpected) {
-//        val response: String = getResponse(r.route.toString())
-//
-//        BDDAssertions.then(trimLines(response))
-//            .isNotNull()
-//            .isNotBlank()
-//            .isEqualTo(trimLines(r.expected.toString()))
-//    }
-//
-//    @DisplayName("Should return 200 ok status code for all requests")
-//    @ParameterizedTest
-//    @MethodSource("htmlTemplates")
-//    fun test_endpoint_for_template_ok(r: RouteAndExpected) {
-//        val res =
-//            webTestClient!!.target("$baseUrl${r.route}")
-//                .request()
-//                .accept(MediaType.WILDCARD)
-//                .method(HttpMethod.GET)
-//                .status
-//
-//        BDDAssertions.then(res)
-//            .isNotNull()
-//            .isEqualTo(200)
-//    }
-//
-//    private fun htmlTemplates(): Stream<Arguments?> {
-//        return Stream.of<Arguments?>(
-//            Arguments.of(
-//                Named.of<RouteAndExpected?>(
-//                    "Rocker Sync",
-//                    RouteAndExpected("/stocks/rocker", wellFormedHtmlAssertion()),
-//                ),
-//            ),
-//            Arguments.of(
-//                Named.of<RouteAndExpected?>(
-//                    "JStachio Sync",
-//                    RouteAndExpected("/stocks/jstachio", wellFormedHtmlAssertion()),
-//                ),
-//            ),
-//            Arguments.of(
-//                Named.of<RouteAndExpected?>(
-//                    "Pebble Sync",
-//                    RouteAndExpected("/stocks/pebble", wellFormedHtmlAssertion()),
-//                ),
-//            ),
-//            Arguments.of(
-//                Named.of<RouteAndExpected?>(
-//                    "Freemarker Sync",
-//                    RouteAndExpected("/stocks/freemarker", wellFormedHtmlAssertion()),
-//                ),
-//            ),
-//            Arguments.of(
-//                Named.of<RouteAndExpected?>(
-//                    "Trimou Sync",
-//                    RouteAndExpected("/stocks/trimou", wellFormedHtmlAssertion()),
-//                ),
-//            ),
-//            Arguments.of(
-//                Named.of<RouteAndExpected?>(
-//                    "Velocity Sync",
-//                    RouteAndExpected("/stocks/velocity", wellFormedHtmlAssertion()),
-//                ),
-//            ),
-//            Arguments.of(
-//                Named.of<RouteAndExpected?>(
-//                    "Thymeleaf Sync",
-//                    RouteAndExpected("/stocks/thymeleaf", wellFormedHtmlAssertion()),
-//                ),
-//            ),
-//            Arguments.of(
-//                Named.of<RouteAndExpected?>(
-//                    "HtmlFlow Sync",
-//                    RouteAndExpected("/stocks/htmlFlow", wellFormedHtmlAssertion()),
-//                ),
-//            ),
-//            Arguments.of(
-//                Named.of<RouteAndExpected?>(
-//                    "KotlinX Sync",
-//                    RouteAndExpected("/stocks/kotlinx", wellFormedHtmlAssertion().replace("<!DOCTYPE html>", "")),
-//                ),
-//            ),
-//        )
-//    }
 
     private fun getResponse(route: String): String {
         return String(
@@ -309,7 +129,7 @@ open class StocksIntegrationTest {
 
     @BeforeAll
     fun startupSpring() {
-        System.setProperty("benchTimeout", "10")
+        System.setProperty("benchTimeout", "0")
         context = SpringApplication.run(Launch::class.java)
         webTestClient =
             ClientBuilder.newClient(ClientConfig())
@@ -342,7 +162,7 @@ open class StocksIntegrationTest {
                     .split(nl.toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray(),
             )
                 .map<String?> { line: String? -> line!!.trim { it <= ' ' }.replace("\t", "").lowercase(Locale.getDefault()) }
-                .filter { line: String? -> !line!!.isEmpty() && !line.contains("stock prices") } // Skip title that is different for each template
+                .filter { line: String? -> line!!.isNotEmpty() && !line.contains("stock prices") } // Skip title that is different for each template
                 .collect(Collectors.joining(nl))
         }
 

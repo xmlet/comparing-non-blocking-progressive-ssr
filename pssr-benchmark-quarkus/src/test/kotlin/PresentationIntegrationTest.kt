@@ -17,8 +17,7 @@ import kotlin.test.assertNotNull
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 open class PresentationIntegrationTest {
     init {
-        System.setProperty("quarkus.virtual-threads.enabled", "false")
-        System.setProperty("benchTimeout", "10")
+        System.setProperty("benchTimeout", "0")
     }
 
     @DisplayName("Should generate html for each template")

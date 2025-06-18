@@ -2,6 +2,7 @@ plugins {
     kotlin("jvm")
     kotlin("kapt")
     id("nu.studer.rocker") version "3.0.5"
+    id("me.champeau.jmh") version "0.7.3"
 }
 
 group = "pt.isel.pfc"
@@ -33,10 +34,56 @@ dependencies {
     implementation(project(":pssr-benchmark-model"))
     implementation("io.reactivex.rxjava3:rxjava:3.1.10")
 
+    implementation("org.openjdk.jmh:jmh-core:1.35")
+    implementation("org.openjdk.jmh:jmh-core-benchmarks:1.35")
+    implementation("org.openjdk.jmh:jmh-generator-annprocess:1.35")
+
+    // For JHM benches
+    implementation(project(":pssr-benchmark-repository"))
+    implementation(project(":pssr-benchmark-repository-mem"))
+
     api("org.webjars:bootstrap:5.3.0")
     api("org.webjars:jquery:3.6.4")
 
     testImplementation(kotlin("test"))
+}
+
+tasks.register<Exec>("benchJMHPresentations") {
+    dependsOn("jmhJar")
+    commandLine(
+        "java",
+        "-jar",
+        "${layout.buildDirectory.get().asFile}/libs/pssr-benchmark-view-${version}-jmh.jar",
+        "-i", "4", // iterations
+        "-wi", "4", // warmup iterations
+        "-f", "1", // forks
+        "-r", "2s", // time for each iteration
+        "-w", "2s", // warmup time
+        "-t", "8", // threads
+        "-rff", "${layout.projectDirectory.asFile.parentFile}/results/results-jmh-presentations.csv",
+        "-rf", "csv", // result format
+        "-tu", "ms", // time unit
+        "presentations"
+    )
+}
+
+tasks.register<Exec>("benchJMHStocks") {
+    dependsOn("jmhJar")
+    commandLine(
+        "java",
+        "-jar",
+        "${layout.buildDirectory.get().asFile}/libs/pssr-benchmark-view-${version}-jmh.jar",
+        "-i", "4", // iterations
+        "-wi", "4", // warmup iterations
+        "-f", "1", // forks
+        "-r", "2s", // time for each iteration
+        "-w", "2s", // warmup time
+        "-t", "8", // threads
+        "-rff", "${layout.projectDirectory.asFile.parentFile}/results/results-jmh-stocks.csv",
+        "-rf", "csv", // result format
+        "-tu", "ms", // time unit
+        "stocks"
+    )
 }
 
 rocker {
