@@ -27,7 +27,6 @@ open class Freemarker: BaseBenchmark() {
             Configuration(Configuration.VERSION_2_3_32).apply {
                 templateLoader = ClassTemplateLoader(javaClass, "/")
                 defaultEncoding = "UTF-8"
-                setSetting("cache_storage", "freemarker.cache.NullCacheStorage")
                 setSetting("template_update_delay", "0")
                 setSetting("locale", Locale.US.toString())
                 setSetting("template_exception_handler", "rethrow")

@@ -30,7 +30,6 @@ open class Pebble : BaseBenchmark() {
                         charset = "UTF-8"
                     },
                 )
-                .cacheActive(false)
                 .autoEscaping(false)
                 .build()
         stocksTemplate = pebbleEngine.getTemplate("stocks")

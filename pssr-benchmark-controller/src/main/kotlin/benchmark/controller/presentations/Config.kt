@@ -22,7 +22,6 @@ val DEFAULT_FREEMARKER_CONFIG =
     Configuration(Configuration.VERSION_2_3_32).apply {
         templateLoader = ClassTemplateLoader(javaClass, "/")
         defaultEncoding = "UTF-8"
-        setSetting("cache_storage", "freemarker.cache.NullCacheStorage")
         setSetting("template_update_delay", "0")
         setSetting("locale", Locale.US.toString())
         setSetting("template_exception_handler", "rethrow")
@@ -41,7 +40,6 @@ val DEFAULT_PEBBLE_ENGINE =
                 charset = "UTF-8"
             },
         )
-        .cacheActive(false)
         .autoEscaping(false)
         .build()
 
@@ -52,7 +50,6 @@ val DEFAULT_THYMELEAF_ENGINE =
                 prefix = "templates/thymeleaf/"
                 suffix = ".html"
                 characterEncoding = "UTF-8"
-                isCacheable = false
             }
         setTemplateResolver(resolver)
     }
@@ -86,9 +83,7 @@ val DEFAULT_VELOCITY_ENGINE =
         setProperty("resource.loaders", "class")
         setProperty("resource.loader.class.class", "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader")
         setProperty("resource.loader.class.path", "classpath:/templates/velocity/")
-        setProperty("resource.loader.class.cache", "false")
         setProperty("view-names", "*-velocity")
         setProperty("layout-enabled", "false")
-        setProperty("cache", "false")
         setProperty("charset", "UTF-8")
     }.let { VelocityEngine(it) }

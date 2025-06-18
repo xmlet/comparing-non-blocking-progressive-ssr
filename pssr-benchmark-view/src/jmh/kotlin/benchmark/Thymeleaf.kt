@@ -25,7 +25,6 @@ open class Thymeleaf : BaseBenchmark() {
                     prefix = "templates/thymeleaf/"
                     suffix = ".html"
                     characterEncoding = "UTF-8"
-                    isCacheable = false
                 }
             setTemplateResolver(resolver)
         }
