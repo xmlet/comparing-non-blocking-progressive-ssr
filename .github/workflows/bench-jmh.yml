@@ -6,8 +6,6 @@ on:
 jobs:
   jmh:
     runs-on: ubuntu-22.04
-    env:
-      GH: true
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -27,7 +25,7 @@ jobs:
       - name: Upload result artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: benchmark-results-jmh-stocks-${{runner.os}}
+          name: benchmark-results-jmh-presentations-${{runner.os}}
           path: ${{ github.workspace }}/results/results-jmh-presentations.csv
 
       - name: Upload result artifacts
