@@ -1,5 +1,17 @@
+#!/bin/bash
+
 cd ../../ || exit
 
-./gradlew benchJMHStocks -Dorg.gradle.jvmargs="-Xms512M -Xmx16g" | tee benches/jmh/jmh-results.log
+./gradlew jmhJar > benches/jmh/gradle-build.log
 
-./gradlew benchJMHPresentations -Dorg.gradle.jvmargs="-Xms512M -Xmx16g" | tee -a benches/jmh/jmh-results.log
+java -Xms512M -Xmx16g -jar pssr-benchmark-view/build/libs/pssr-benchmark-view-1.0-SNAPSHOT-jmh.jar \
+  -i 4 -wi 4 -f 1 -r 2s -w 2s \
+  -rff results/results-jmh-stocks.csv \
+  -rf csv -tu ms \
+  stocks | tee benches/jmh/jmh-results.log
+
+java -Xms512M -Xmx16g -jar pssr-benchmark-view/build/libs/pssr-benchmark-view-1.0-SNAPSHOT-jmh.jar \
+  -i 4 -wi 4 -f 1 -r 2s -w 2s \
+  -rff results/results-jmh-presentations.csv \
+  -rf csv -tu ms \
+  presentations | tee -a benches/jmh/jmh-results.log

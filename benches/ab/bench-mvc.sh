@@ -1,7 +1,22 @@
+#!/bin/bash
+
 cd ../../ || exit
 
-./gradlew runMVC -DbenchTimeout=1 -Dorg.gradle.jvmargs="-Xms512M -Xmx16g" > benches/ab/spring-mvc.log &
+./gradlew build > benches/ab/gradle-build.log 2>&1 &
 PID_GRADLE=$!
+
+while ! grep -qE 'BUILD SUCCESSFUL|BUILD FAILED' benches/ab/gradle-build.log; do
+  if ! ps -p $PID_GRADLE > /dev/null; then
+    echo "Gradle build process has terminated unexpectedly."
+    exit 1
+  fi
+  sleep 1
+done
+
+java -Xms512M -Xmx16g -DbenchTimeout=1 -jar pssr-benchmark-spring-mvc/build/libs/pssr-benchmark-spring-mvc-1.0-SNAPSHOT.jar > benches/ab/spring-mvc.log &
+PID_SPRING=$!
+
+echo "Starting Spring MVC application with PID $PID_SPRING"
 
 cd benches/ab || exit
 
@@ -10,7 +25,7 @@ while ! grep -m1 'Tomcat started on port 8080' < spring-mvc.log; do
     sleep 1
 done
 
-echo ":::::::::::::::::::::::::::::::     Gradle running PID = $PID_GRADLE"
+echo ":::::::::::::::::::::::::::::::     Spring running PID = $PID_SPRING"
 
 #
 # Define routes for benchmark
@@ -58,17 +73,17 @@ echo "##########################################"
 
 # Gracefully terminate the Spring Boot application.
 # It will send a SIGTERM corresponding to Exit code 143.
-kill $PID_GRADLE
+kill $PID_SPRING
 
 # Wait for the process to exit
-wait $PID_GRADLE
+wait $PID_SPRING
 
 echo ":::::::::::::::::::::::::::::::     Sync Bench Done"
 
 cd ../../ || exit
 
-./gradlew runMVCVirtual -DbenchTimeout=1 -Dorg.gradle.jvmargs="-Xms512M -Xmx16g" > benches/ab/spring-mvc.log &
-PID_GRADLE=$!
+java -Xms512M -Xmx16g -DbenchTimeout=1 -Dspring.threads.virtual.enabled=true -jar pssr-benchmark-spring-mvc/build/libs/pssr-benchmark-spring-mvc-1.0-SNAPSHOT.jar > benches/ab/spring-mvc.log &
+PID_SPRING=$!
 
 cd benches/ab || exit
 
@@ -77,7 +92,7 @@ while ! grep -m1 'Tomcat started on port 8080' < spring-mvc.log; do
     sleep 1
 done
 
-echo ":::::::::::::::::::::::::::::::     Gradle running PID = $PID_GRADLE"
+echo ":::::::::::::::::::::::::::::::     Spring running PID = $PID_SPRING"
 
 #
 # Warm up all paths in 3 iterations each.
@@ -98,10 +113,10 @@ echo "##########################################"
 ./run-ab.sh "${ROUTES[@]}" | tee spring-mvc-virtual-results.log
 
 if [ "$GH" != "true" ]; then
-  kill $PID_GRADLE
+  kill $PID_SPRING
 
   # Wait for the process to exit
-  wait $PID_GRADLE
+  wait $PID_SPRING
 fi
 
 echo ":::::::::::::::::::::::::::::::     Virtual Bench Done"

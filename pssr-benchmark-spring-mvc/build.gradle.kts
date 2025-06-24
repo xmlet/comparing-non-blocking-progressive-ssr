@@ -21,6 +21,7 @@ dependencies {
 
     implementation("org.springframework.boot:spring-boot-starter-jersey")
     implementation("org.springframework.boot:spring-boot-starter-web")
+    implementation("org.springframework.boot:spring-boot-starter-jetty")
 
     implementation("org.springframework.boot:spring-boot-starter-test")
 
@@ -51,6 +52,14 @@ tasks.register<JavaExec>("runMVCVirtual") {
             "-Djdk.tracePinnedThreads",
         )
     systemProperties = System.getProperties().entries.associate { (k, v) -> k.toString() to v.toString() }
+}
+
+tasks.jar {
+    manifest {
+        attributes(
+            "Main-Class" to "benchmark.mvc.LaunchKt",
+        )
+    }
 }
 
 tasks.test {

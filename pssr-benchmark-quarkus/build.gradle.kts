@@ -4,6 +4,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
     id("io.quarkus") version "3.15.4"
     id("org.kordamp.gradle.jandex") version "1.0.0"
+    id("com.github.johnrengelman.shadow") version "8.1.1"
     kotlin("jvm")
 }
 
@@ -71,5 +72,19 @@ kotlin {
 tasks.withType<KotlinCompile> {
     compilerOptions {
         jvmTarget.set(JvmTarget.JVM_21)
+    }
+}
+
+tasks {
+    shadowJar {
+        dependsOn("jandex")
+        manifest {
+            attributes(
+                "Main-Class" to "benchmark.LaunchKt",
+            )
+        }
+    }
+    build {
+        dependsOn(shadowJar)
     }
 }
