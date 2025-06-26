@@ -13,7 +13,7 @@ while ! grep -qE 'BUILD SUCCESSFUL|BUILD FAILED' benches/ab/gradle-build.log; do
   sleep 1
 done
 
-java -Xms512M -Xmx16g -DbenchTimeout=1 -jar pssr-benchmark-spring-mvc/build/libs/pssr-benchmark-spring-mvc-1.0-SNAPSHOT.jar > benches/jmeter/spring-mvc.log &
+java -Xms512M -Xmx16g -DbenchTimeout=5 -Dspring.threads.virtual.enabled=false -jar pssr-benchmark-spring-mvc/build/libs/pssr-benchmark-spring-mvc-1.0-SNAPSHOT.jar > benches/jmeter/spring-mvc.log &
 
 cd benches/jmeter || exit
 
@@ -61,7 +61,7 @@ wait "$PID_MVC"
 
 cd ../../ || exit
 
-java -Xms512M -Xmx16g -DbenchTimeout=1 -Dspring.threads.virtual.enabled=true -jar pssr-benchmark-spring-mvc/build/libs/pssr-benchmark-spring-mvc-1.0-SNAPSHOT.jar > benches/jmeter/spring-mvc.log &
+java -Xms512M -Xmx16g -DbenchTimeout=5 -Dspring.threads.virtual.enabled=true -jar pssr-benchmark-spring-mvc/build/libs/pssr-benchmark-spring-mvc-1.0-SNAPSHOT.jar > benches/jmeter/spring-mvc.log &
 
 cd benches/jmeter || exit
 

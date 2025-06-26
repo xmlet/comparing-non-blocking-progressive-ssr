@@ -13,7 +13,7 @@ while ! grep -qE 'BUILD SUCCESSFUL|BUILD FAILED' benches/ab/gradle-build.log; do
   sleep 1
 done
 
-java -Xms512M -Xmx16g -DbenchTimeout=1 -jar pssr-benchmark-quarkus/build/libs/pssr-benchmark-quarkus-1.0-SNAPSHOT-all.jar > benches/jmeter/quarkus.log &
+java -Xms512M -Xmx16g -DbenchTimeout=5 -Dquarkus.virtual-threads.enabled=false -jar pssr-benchmark-quarkus/build/libs/pssr-benchmark-quarkus-1.0-SNAPSHOT-all.jar > benches/jmeter/quarkus.log &
 
 cd benches/jmeter || exit
 
@@ -71,7 +71,7 @@ echo ":::::::::::::::::::::::::::::::     Sync Bench Done"
 
 cd ../../ || exit
 
-java -Xms512M -Xmx16g -DbenchTimeout=1 -Dquarkus.virtual-threads.enabled=true -jar pssr-benchmark-quarkus/build/libs/pssr-benchmark-quarkus-1.0-SNAPSHOT-all.jar > benches/jmeter/quarkus.log &
+java -Xms512M -Xmx16g -DbenchTimeout=5 -Dquarkus.virtual-threads.enabled=true -jar pssr-benchmark-quarkus/build/libs/pssr-benchmark-quarkus-1.0-SNAPSHOT-all.jar > benches/jmeter/quarkus.log &
 
 cd benches/jmeter || exit
 

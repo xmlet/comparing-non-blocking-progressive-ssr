@@ -13,7 +13,7 @@ while ! grep -qE 'BUILD SUCCESSFUL|BUILD FAILED' benches/ab/gradle-build.log; do
   sleep 1
 done
 
-java -Xms512M -Xmx16g -DbenchTimeout=1 -jar pssr-benchmark-spring-mvc/build/libs/pssr-benchmark-spring-mvc-1.0-SNAPSHOT.jar > benches/ab/spring-mvc.log &
+java -Xms512M -Xmx16g -DbenchTimeout=5 -Dspring.threads.virtual.enabled=false -jar pssr-benchmark-spring-mvc/build/libs/pssr-benchmark-spring-mvc-1.0-SNAPSHOT.jar > benches/ab/spring-mvc.log &
 PID_SPRING=$!
 
 echo "Starting Spring MVC application with PID $PID_SPRING"
@@ -82,7 +82,7 @@ echo ":::::::::::::::::::::::::::::::     Sync Bench Done"
 
 cd ../../ || exit
 
-java -Xms512M -Xmx16g -DbenchTimeout=1 -Dspring.threads.virtual.enabled=true -jar pssr-benchmark-spring-mvc/build/libs/pssr-benchmark-spring-mvc-1.0-SNAPSHOT.jar > benches/ab/spring-mvc.log &
+java -Xms512M -Xmx16g -DbenchTimeout=5 -Dspring.threads.virtual.enabled=true -jar pssr-benchmark-spring-mvc/build/libs/pssr-benchmark-spring-mvc-1.0-SNAPSHOT.jar > benches/ab/spring-mvc.log &
 PID_SPRING=$!
 
 cd benches/ab || exit

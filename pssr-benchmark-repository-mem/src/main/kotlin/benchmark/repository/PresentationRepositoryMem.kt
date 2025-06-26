@@ -9,7 +9,8 @@ import java.util.concurrent.TimeUnit
 fun <T : Any> Observable<T>.interleaved(
     timeout: Long,
     timeUnit: TimeUnit = TimeUnit.MILLISECONDS,
-    scheduler: Scheduler = Schedulers.io(),
+    blocking: Boolean = false,
+    scheduler: Scheduler = if (blocking) Schedulers.trampoline() else Schedulers.io(),
 ) = concatMap { Observable.just(it).delay(timeout, timeUnit, scheduler) }
 
 class PresentationRepositoryMem(
@@ -29,7 +30,7 @@ class PresentationRepositoryMem(
         if (timeout == 0L) {
             presentationsList.toList()
         } else {
-            presentationsReactive.interleaved(timeout).blockingIterable()
+            presentationsReactive.interleaved(timeout, blocking = true).blockingIterable()
         }
 
     init {

@@ -20,7 +20,7 @@ class StockRepositoryMem(
         if (timeout == 0L) {
             stocksList
         } else {
-            stocksReactive.interleaved(timeout).blockingIterable()
+            stocksReactive.interleaved(timeout, blocking = true).blockingIterable()
         }
 
     init {

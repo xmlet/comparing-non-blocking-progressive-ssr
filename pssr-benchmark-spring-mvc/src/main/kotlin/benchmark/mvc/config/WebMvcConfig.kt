@@ -1,6 +1,7 @@
 package benchmark.mvc.config
 
 import org.springframework.beans.BeansException
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
 import org.springframework.context.ApplicationContext
 import org.springframework.context.ApplicationContextAware
 import org.springframework.context.MessageSource
@@ -26,7 +27,15 @@ open class WebMvcConfig : ApplicationContextAware, WebMvcConfigurer {
         registry.addResourceHandler("/resources/**").addResourceLocations("/resources/")
     }
 
+    /**
+     * We use this configuration to create a thread pool for handling StreamingResponseBody callbacks with dedicated
+     * worker threads.
+     *
+     * Whenever `spring.threads.virtual.enabled` is set to `true`, the application will use virtual threads for each
+     * StreamingResponseBody callback, instead of a thread pool.
+     */
     @Bean
+    @ConditionalOnProperty(name = ["spring.threads.virtual.enabled"], havingValue = "false", matchIfMissing = true)
     open fun threadPoolTaskExecutor(): ThreadPoolTaskExecutor {
         val executor = ThreadPoolTaskExecutor()
         executor.corePoolSize = 10
