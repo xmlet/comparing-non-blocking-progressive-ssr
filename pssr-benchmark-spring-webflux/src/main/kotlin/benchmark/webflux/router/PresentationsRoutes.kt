@@ -345,9 +345,9 @@ class PresentationsRoutes(
         val view =
             AppendableSink().also {
                 scope.launch {
-                    PresentationsHtmlFlow.htmlFlowTemplateSync
+                    PresentationsHtmlFlow.htmlFlowTemplateIter
                         .setOut(it)
-                        .write(presentationsFlux)
+                        .write(presentationsIter)
                     it.close()
                 }
             }
@@ -416,7 +416,7 @@ class PresentationsRoutes(
         val view =
             AppendableSink().also {
                 scope.launch {
-                    PresentationsKotlinX.kotlinXSync(it, presentationsFlux)
+                    PresentationsKotlinX.kotlinXIter(it, presentationsIter)
                     it.close()
                 }
             }

@@ -346,9 +346,9 @@ class StocksRoutes(
             AppendableSink().also {
                 scope.launch {
                     StocksHtmlFlow
-                        .htmlFlowTemplateSync
+                        .htmlFlowTemplateIter
                         .setOut(it)
-                        .write(stocksFlux)
+                        .write(stocksIter)
                     it.close()
                 }
             }
@@ -419,7 +419,7 @@ class StocksRoutes(
         val view =
             AppendableSink().also {
                 scope.launch {
-                    StocksKotlinX.kotlinXSync(it, stocksFlux)
+                    StocksKotlinX.kotlinXIter(it, stocksIter)
                     it.close()
                 }
             }
