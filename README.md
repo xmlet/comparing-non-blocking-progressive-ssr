@@ -1,9 +1,9 @@
 
-# Comparing Template Engines for Quarkus, Spring MVC, and Spring WebFlux
+# Comparing Non Blocking Progressive Server-Side Rendering (PSSR) 
 
 This project builds upon previous work comparing Java template engines for [Spring WebFlux](https://github.com/xmlet/spring-webflux-comparing-template-engines) and [Spring MVC](https://github.com/jreijn/spring-comparing-template-engines), originally presented in ["Shoot-out! Template engines for the JVM"](https://www.slideshare.net/slideshow/comparing-templateenginesjvm/27994062) by [Jeroen Reijn](https://github.com/jreijn).
 
-We benchmark multiple Java template engines across three frameworks — **Quarkus**, **Spring MVC**, and **Spring WebFlux** — focusing on **Progressive Server-Side Rendering (PSSR)**, scalability under load, and modern Java features like **virtual threads**.
+We benchmark multiple Java template engines across three frameworks — **Quarkus**, **Spring MVC**, and **Spring WebFlux**, focusing on **Progressive Server-Side Rendering (PSSR)**, scalability under load, and modern Java features like **virtual threads**.
 
 ---
 
