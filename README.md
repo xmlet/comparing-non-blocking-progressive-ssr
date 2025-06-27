@@ -7,7 +7,7 @@ We benchmark multiple Java template engines across three frameworks — **Quarku
 
 ---
 
-## 🔧 Template Engines
+## Template Engines
 
 The following engines are included in the benchmark:
 
@@ -51,35 +51,128 @@ Each framework exposes routes under `/presentations` and `/stocks`, rendered by 
 <details>
 <summary><strong> Spring WebFlux Routes</strong></summary>
 
-- **Thymeleaf**: async, sync, virtual
-- **HtmlFlow**: async (callback), suspending, sync, virtual
-- **kotlinx.html**: async (malformed), sync, virtual
-- **Rocker, JStachio, Pebble, Freemarker, Trimou, Velocity**: sync, virtual
+**Presentations:**
+
+- `/presentations/thymeleaf` - reactive 
+- `/presentations/thymeleaf/sync` - synchronous, blocking
+- `/presentations/thymeleaf/virtualSync` - synchronous, non-blocking with virtual threads
+- `/presentations/htmlFlow` - reactive
+- `/presentations/htmlFlow/suspending` - suspending, non-blocking
+- `/presentations/htmlFlow/sync` - synchronous, blocking
+- `/presentations/htmlFlow/virtualSync` - synchronous, non-blocking with virtual threads
+- `/presentations/kotlinx` - reactive (malformed HTML)
+- `/presentations/kotlinx/sync` - synchronous, blocking
+- `/presentations/kotlinx/virtualSync` - synchronous, non-blocking with virtual threads
+- `/presentations/rocker/sync` - synchronous, blocking
+- `/presentations/rocker/virtualSync` - synchronous, non-blocking with virtual threads
+- `/presentations/jstachio/sync` - synchronous, blocking
+- `/presentations/jstachio/virtualSync` - synchronous, non-blocking with virtual threads
+- `/presentations/pebble/sync` - synchronous, blocking
+- `/presentations/pebble/virtualSync` - synchronous, non-blocking with virtual threads
+- `/presentations/freemarker/sync` - synchronous, blocking
+- `/presentations/freemarker/virtualSync` - synchronous, non-blocking with virtual threads
+- `/presentations/trimou/sync` - synchronous, blocking
+- `/presentations/trimou/virtualSync` - synchronous, non-blocking with virtual threads
+- `/presentations/velocity/sync` - synchronous, blocking
+- `/presentations/velocity/virtualSync` - synchronous, non-blocking with virtual threads
+
+**Stocks:**
+
+- `/stocks/thymeleaf` - reactive
+- `/stocks/thymeleaf/sync` - synchronous, blocking
+- `/stocks/thymeleaf/virtualSync` - synchronous, non-blocking with virtual threads
+- `/stocks/htmlFlow` - reactive
+- `/stocks/htmlFlow/suspending` - suspending, non-blocking
+- `/stocks/htmlFlow/sync` - synchronous, blocking
+- `/stocks/htmlFlow/virtualSync` - synchronous, non-blocking with virtual threads
+- `/stocks/kotlinx` - reactive (malformed HTML)
+- `/stocks/kotlinx/sync` - synchronous, blocking
+- `/stocks/kotlinx/virtualSync` - synchronous, non-blocking with virtual threads
+- `/stocks/rocker/sync` - synchronous, blocking
+- `/stocks/rocker/virtualSync` - synchronous, non-blocking with virtual threads
+- `/stocks/jstachio/sync` - synchronous, blocking
+- `/stocks/jstachio/virtualSync` - synchronous, non-blocking with virtual threads
+- `/stocks/pebble/sync` - synchronous, blocking
+- `/stocks/pebble/virtualSync` - synchronous, non-blocking with virtual threads
+- `/stocks/freemarker/sync` - synchronous, blocking
+- `/stocks/freemarker/virtualSync` - synchronous, non-blocking with virtual threads
+- `/stocks/trimou/sync` - synchronous, blocking
+- `/stocks/trimou/virtualSync` - synchronous, non-blocking with virtual threads
+- `/stocks/velocity/sync` - synchronous, blocking
+- `/stocks/velocity/virtualSync` - synchronous, non-blocking with virtual threads
 
 </details>
 
 <details>
 <summary><strong> Spring MVC Routes</strong></summary>
 
-All routes are **blocking**, with optional support for **virtual threads**:
+All routes are **blocking**, with optional support for **virtual threads** if the
+`spring.threads.virtual.enabled` property is set to `true`.
 
-- Engines: Thymeleaf, HtmlFlow, kotlinx.html, Rocker, JStachio, Pebble, Freemarker, Trimou, Velocity
+**Presentations:**
 
+- `/presentations/thymeleaf`
+- `/presentations/htmlFlow`
+- `/presentations/kotlinx`
+- `/presentations/rocker`
+- `/presentations/jstachio`
+- `/presentations/pebble`
+- `/presentations/freemarker`
+- `/presentations/trimou`
+- `/presentations/velocity`
+
+**Stocks:**
+
+- `/stocks/thymeleaf`
+- `/stocks/htmlFlow`
+- `/stocks/kotlinx`
+- `/stocks/rocker`
+- `/stocks/jstachio`
+- `/stocks/pebble`
+- `/stocks/freemarker`
+- `/stocks/trimou`
+- `/stocks/velocity`
+- 
 </details>
 
 <details>
 <summary><strong> Quarkus Routes</strong></summary>
 
-All engines support **blocking**, and HtmlFlow also supports **reactive** mode:
+All engines are **blocking** and support **virtual threads** if the
+`quarkus.threads.virtual.enabled` property is set to `true`. Also 
+includes a **reactive** route with `HtmlFlow`.
 
+**Presentations:**
+
+- `/presentations/thymeleaf`
+- `/presentations/htmlFlow`
+- `/presentations/kotlinx`
+- `/presentations/rocker`
+- `/presentations/jstachio`
+- `/presentations/pebble`
+- `/presentations/freemarker`
+- `/presentations/trimou`
+- `/presentations/velocity`
 - `/presentations/reactive/htmlFlow`
+
+**Stocks:**
+
+- `/stocks/thymeleaf`
+- `/stocks/htmlFlow`
+- `/stocks/kotlinx`
+- `/stocks/rocker`
+- `/stocks/jstachio`
+- `/stocks/pebble`
+- `/stocks/freemarker`
+- `/stocks/trimou`
+- `/stocks/velocity`
 - `/stocks/reactive/htmlFlow`
 
 </details>
 
 ---
 
-## 🛠 Build & Run
+## Build & Run
 
 ### Prerequisites
 
@@ -128,7 +221,7 @@ java -jar pssr-benchmark-quarkus/build/quarkus-app/quarkus-run.jar
 
 ---
 
-## 📊 Running Benchmarks
+## Running Benchmarks
 
 ### Apache Benchmark (ab)
 
