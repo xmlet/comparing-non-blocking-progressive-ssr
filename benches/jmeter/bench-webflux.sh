@@ -44,9 +44,8 @@ ROUTES=(
      presentations/freemarker/virtualSync
      presentations/trimou/sync
      presentations/trimou/virtualSync
-     presentations/velocity/sync
-     presentations/velocity/virtualSync
-     presentations/thymeleaf
+#     presentations/velocity/sync
+#     presentations/velocity/virtualSync
      stocks/thymeleaf
      stocks/thymeleaf/sync
      stocks/thymeleaf/virtualSync

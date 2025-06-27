@@ -56,7 +56,6 @@ ROUTES=(
    presentations/trimou/virtualSync
 #   presentations/velocity/sync
 #   presentations/velocity/virtualSync
-   presentations/thymeleaf
    stocks/thymeleaf
    stocks/thymeleaf/sync
    stocks/thymeleaf/virtualSync
