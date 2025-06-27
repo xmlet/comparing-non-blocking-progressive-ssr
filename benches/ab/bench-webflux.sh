@@ -34,51 +34,53 @@ echo ":::::::::::::::::::::::::::::::     Spring running PID = $PID_WEBFLUX"
 # Define routes for benchmark
 #
 ROUTES=(
-   presentations/thymeleaf
-   presentations/thymeleaf/sync
-   presentations/thymeleaf/virtualSync
-   presentations/htmlFlow
-   presentations/htmlFlow/suspending
-   presentations/htmlFlow/sync
-   presentations/htmlFlow/virtualSync
-   presentations/kotlinx
-   presentations/kotlinx/sync
-   presentations/kotlinx/virtualSync
-   presentations/rocker/sync
-   presentations/rocker/virtualSync
-   presentations/jstachio/sync
-   presentations/jstachio/virtualSync
-   presentations/pebble/sync
-   presentations/pebble/virtualSync
-#   presentations/freemarker/sync
-   presentations/freemarker/virtualSync
-   presentations/trimou/sync
-   presentations/trimou/virtualSync
-#   presentations/velocity/sync
-#   presentations/velocity/virtualSync
-   stocks/thymeleaf
-   stocks/thymeleaf/sync
-   stocks/thymeleaf/virtualSync
-   stocks/htmlFlow
-   stocks/htmlFlow/suspending
-   stocks/htmlFlow/sync
-   stocks/htmlFlow/virtualSync
-#   stocks/kotlinx
-   stocks/kotlinx/sync
-   stocks/kotlinx/virtualSync
-   stocks/rocker/sync
-   stocks/rocker/virtualSync
-   stocks/jstachio/sync
-   stocks/jstachio/virtualSync
-   stocks/pebble/sync
-   stocks/pebble/virtualSync
-#   stocks/freemarker/sync
-   stocks/freemarker/virtualSync
-   stocks/trimou/sync
-   stocks/trimou/virtualSync
-#   stocks/velocity/sync
-#   stocks/velocity/virtualSync
+     presentations/thymeleaf
+  #   presentations/thymeleaf/sync
+     presentations/thymeleaf/virtualSync
+     presentations/htmlFlow
+     presentations/htmlFlow/suspending
+     presentations/htmlFlow/sync
+     presentations/htmlFlow/virtualSync
+  #   presentations/kotlinx
+  #   presentations/kotlinx/sync
+     presentations/kotlinx/virtualSync
+     presentations/rocker/sync
+     presentations/rocker/virtualSync
+     presentations/jstachio/sync
+     presentations/jstachio/virtualSync
+  #   presentations/pebble/sync
+     presentations/pebble/virtualSync
+  #   presentations/freemarker/sync
+     presentations/freemarker/virtualSync
+  #   presentations/trimou/sync
+     presentations/trimou/virtualSync
+  #   presentations/velocity/sync
+#     presentations/velocity/virtualSync
+     presentations/thymeleaf
+     stocks/thymeleaf
+  #   stocks/thymeleaf/sync
+     stocks/thymeleaf/virtualSync
+     stocks/htmlFlow
+     stocks/htmlFlow/suspending
+     stocks/htmlFlow/sync
+     stocks/htmlFlow/virtualSync
+#     stocks/kotlinx
+  #   stocks/kotlinx/sync
+     stocks/kotlinx/virtualSync
+     stocks/rocker/sync
+     stocks/rocker/virtualSync
+     stocks/jstachio/sync
+     stocks/jstachio/virtualSync
+  #   stocks/pebble/sync
+     stocks/pebble/virtualSync
+  #   stocks/freemarker/sync
+     stocks/freemarker/virtualSync
+  #   stocks/trimou/sync
+     stocks/trimou/virtualSync
+  #   stocks/velocity/sync
+#     stocks/velocity/virtualSync
 )
+
 
 #
 # Warm up all paths in 3 iterations each.
