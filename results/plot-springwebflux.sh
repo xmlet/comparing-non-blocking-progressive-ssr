@@ -16,12 +16,18 @@ extract_data() {
 
     route=$(echo "$line" | cut -d':' -f1)
     concurrency=$(echo "$line" | cut -d':' -f3 | awk '{print $1}')
-    req_per_sec=$(echo "$line" | grep -oP '[0-9.]+(?= req/s)')
+    req_per_sec=$(echo "$line" | grep -oP '(?<=[:\s])([0-9.]+)(?=\s*(req/s|\[#/sec\]))')
 
     if [[ "$route" == *"/htmlFlow/suspending"* ]]; then
       label_out="HtmlFlow-Susp"
-    elif [[ "$route" == *"/jstachio/virtualSync"* ]]; then
-      label_out="JStachio-Virtual"
+    elif [[ "$route" == *"/rocker/virtualSync"* ]]; then
+      label_out="Rocker-Virtual"
+    elif [[ "$route" == *"/htmlFlow/virtualSync"* ]]; then
+      label_out="HtmlFlow-Virtual"
+    elif [[ "$route" == *"/kotlinx/virtualSync"* ]]; then
+      label_out="KotlinX-Virtual"
+    elif [[ "$route" == *"virtualSync"* ]]; then
+      continue
     elif [[ "$route" == *"/thymeleaf" ]]; then
       label_out="Thymeleaf-Rx"
     elif [[ "$route" == *"/sync"* ]]; then

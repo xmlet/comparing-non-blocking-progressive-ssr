@@ -1,7 +1,7 @@
 #!/usr/bin/gnuplot
 
 # Plot Presentations Results
-set terminal pngcairo size 1000,600 enhanced font 'Verdana,10'
+set terminal pngcairo size 1200,600 enhanced font 'Verdana,10'
 set output 'presentations-webflux.png'
 
 set datafile separator ","

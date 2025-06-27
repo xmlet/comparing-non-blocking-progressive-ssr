@@ -18,8 +18,7 @@ extract_data() {
 
     route=$(echo "$line" | cut -d':' -f1)
     concurrency=$(echo "$line" | cut -d':' -f3 | awk '{print $1}')
-    req_per_sec=$(echo "$line" | grep -oP '[0-9.]+(?= req/s)')
-
+    req_per_sec=$(echo "$line" | grep -oP '(?<=[:\s])([0-9.]+)(?=\s*(req/s|\[#/sec\]))')
     # Extract engine from route
     engine=$(echo "$route" | cut -d'/' -f2)
 
