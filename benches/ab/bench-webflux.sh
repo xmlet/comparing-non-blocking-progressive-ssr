@@ -50,8 +50,8 @@ ROUTES=(
    presentations/jstachio/virtualSync
 #   presentations/pebble/sync
 #   presentations/pebble/virtualSync
-#   presentations/freemarker/sync
-#   presentations/freemarker/virtualSync
+   presentations/freemarker/sync
+   presentations/freemarker/virtualSync
    presentations/trimou/sync
    presentations/trimou/virtualSync
 #   presentations/velocity/sync
@@ -72,8 +72,8 @@ ROUTES=(
    stocks/jstachio/virtualSync
 #   stocks/pebble/sync
 #   stocks/pebble/virtualSync
-#   stocks/freemarker/sync
-#   stocks/freemarker/virtualSync
+   stocks/freemarker/sync
+   stocks/freemarker/virtualSync
    stocks/trimou/sync
    stocks/trimou/virtualSync
 #   stocks/velocity/sync
