@@ -29,9 +29,9 @@ The following engines are included in the benchmark:
 
 - Added **Quarkus** and **Spring MVC** support, alongside Spring WebFlux.
 - Integrated **virtual threads**, enabling non-blocking behavior in traditionally blocking engines.
-- Replaced `Dispatchers.Default` with `Dispatchers.IO` (unlimited parallelism) in Spring WebFlux to measure blocking overhead.
+- Replaced `Dispatchers.Default` with `Dispatchers.IO` in Spring WebFlux for blocking routes to measure performance with a dedicated I/O dispatcher.
 - Enabled **progressive rendering** for engines without asynchronous data model support using `Observable.blockingIterable()`.
-
+- Changed engine configs to allow template caching.
 ---
 
 ## Progressive Rendering Support

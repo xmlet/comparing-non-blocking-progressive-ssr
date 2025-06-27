@@ -14,7 +14,6 @@ import io.pebbletemplates.pebble.PebbleEngine
 import io.reactivex.rxjava3.core.BackpressureStrategy.DROP
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.reactive.asFlow
 import org.apache.velocity.VelocityContext
@@ -50,8 +49,7 @@ class StocksRoutes(
      * We need to release calling thread to proceed request handling and return Publisher<String> with HTML.
      * Using Dispatchers.Unconfined on Blocking IO will prevent Progressive Rendering.
      */
-    @OptIn(ExperimentalCoroutinesApi::class)
-    private val scope = CoroutineScope(Dispatchers.IO.limitedParallelism(Int.MAX_VALUE))
+    private val scope = CoroutineScope(Dispatchers.IO)
 
     /**
      * It executes the initial continuation of a coroutine in the current
