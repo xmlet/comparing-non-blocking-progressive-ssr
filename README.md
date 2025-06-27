@@ -1,6 +1,7 @@
 # Comparing Template Engines for Quarkus, Spring MVC, and Spring WebFlux
 
-This project extends [_Comparing Template engines for Spring Webflux](https://github.com/xmlet/spring-webflux-comparing-template-engines) and the original [_Comparing Template engines for Spring Web MVC_](https://github.com/jreijn/spring-comparing-template-engines) by [Jeroen Reijn](https://github.com/jreijn), which accompanied the presentation ["Shoot-out! Template engines for the JVM"](https://www.slideshare.net/slideshow/comparing-templateenginesjvm/27994062). It benchmarks several Java template engines across three frameworks: **Quarkus**, **Spring MVC**, and **Spring WebFlux**. The focus is on **Progressive Server-Side Rendering (PSSR)** and the ability of template engines to handle reactive data models.
+This project extends [Comparing Template engines for Spring Webflux](https://github.com/xmlet/spring-webflux-comparing-template-engines) and the original [_Comparing Template engines for Spring Web MVC_](https://github.com/jreijn/spring-comparing-template-engines) by [Jeroen Reijn](https://github.com/jreijn), which accompanied the presentation ["Shoot-out! Template engines for the JVM"](https://www.slideshare.net/slideshow/comparing-templateenginesjvm/27994062). It benchmarks several Java template engines across three frameworks: **Quarkus**, **Spring MVC**, and **Spring WebFlux**. The focus is on **Progressive Server-Side Rendering (PSSR)** and the ability of template engines to 
+scale with increasing server load.
 
 Template engines used in this project are:
 
@@ -17,8 +18,8 @@ Template engines used in this project are:
 
 Some relevant differences from the previous benchmark:
 - The project now includes **Quarkus** and **Spring MVC** frameworks, in addition to **Spring WebFlux**.
-- The benchmarks now include Virtual Threads, allowing for non-blocking rendering in traditionally blocking template engines.
-- In **Spring WebFlux**, the dispatcher used for the blocking routes was changed from `Dispatchers.Default` to `Dispatchers.IO`, with `limittedParallelism` set to INT_MAX_VALUE, to allow for testing the 
+- The benchmarks now include Virtual Thread approaches, allowing for non-blocking rendering in traditionally blocking template engines.
+- In **Spring WebFlux**, the dispatcher used for the blocking routes was changed from `Dispatchers.Default` to `Dispatchers.IO`, with `limittedParallelism` set to `INT_MAX_VALUE`, to allow for testing the 
 overhead of using platform threads for blocking operations when compared to virtual threads or non-blocking operations.
 - Blocking routes use the `blockingIterable()` method from the `Observable` class to allow for progressive rendering in 
 template engines that do not directly support asynchronous data models like Thymeleaf and HtmlFlow.
@@ -34,19 +35,9 @@ before the response starts being streamed to the client. We could not find a way
 similar to Spring MVC, the output buffer reaches capacity before the response starts being streamed to the client, however
 Quarkus allows for configuring the output buffer size, through the `quarkus.rest.output-buffer-size=512` property in the `application.properties` file.
 
-## Key Features
-
-1. **Frameworks**: Benchmarks are conducted for **Quarkus**, **Spring MVC**, and **Spring WebFlux**.
-2. **Reactive Data Models**: Uses `Observable<T>` from RxJava for reactive data. Only Thymeleaf and HtmlFlow support non-blocking rendering. Other engines use blocking calls in separate user-level threads.
-3. **Routes**: Routes are categorized as asynchronous or blocking. Blocking routes are marked with `/sync` in their path.
-4. **Scalability**: Jmeter/ab benchmarks test scalability with varying concurrency levels, highlighting the performance of non-blocking engines.
-5. **Performance**: JMH benchmarks measure performance of each engine with a focus on rendering throughput.
-
 ## Routes
 
 The following routes are available for each framework:
-
----
 
 ### **Spring WebFlux**
 
@@ -169,39 +160,39 @@ Run the following command to build the project:
 To run the project for a specific framework, use the following commands:
 
 - **Spring WebFlux**:
-  ```bash
-  java -jar pssr-benchmark-spring-webflux/build/libs/pssr-benchmark-spring-webflux-1.0-SNAPSHOT.jar
-  ```
-  or if you want to run it with Gradle:
-  ```bash
-    ./gradlew runWebflux
-  ```
+```bash
+java -jar pssr-benchmark-spring-webflux/build/libs/pssr-benchmark-spring-webflux-1.0-SNAPSHOT.jar
+```
+or if you want to run it with Gradle:
+```bash
+  ./gradlew runWebflux
+```
 
 - **Spring MVC**:
-  ```bash
-  java -jar pssr-benchmark-spring-mvc/build/libs/pssr-benchmark-spring-mvc-1.0-SNAPSHOT.jar
-  ```
-  or if you want to run it with Gradle:
-  ```bash
-      ./gradlew runMVC
-  ```
-  and with virtual threads:
-  ```bash
-      ./gradlew runMVCVirtual
-  ```
+```bash
+java -jar pssr-benchmark-spring-mvc/build/libs/pssr-benchmark-spring-mvc-1.0-SNAPSHOT.jar
+```
+or if you want to run it with Gradle:
+```bash
+    ./gradlew runMVC
+```
+and with virtual threads:
+```bash
+    ./gradlew runMVCVirtual
+```
   
 - **Quarkus**:
-  ```bash
-  java -jar pssr-benchmark-quarkus/build/quarkus-app/quarkus-run.jar
-  ```
-  or if you want to run it with Gradle:
-  ```bash
-      ./gradlew runQuarkus
-  ```
-  and with virtual threads:
-  ```bash
-      ./gradlew runQuarkusVirtual
-  ```
+```bash
+java -jar pssr-benchmark-quarkus/build/quarkus-app/quarkus-run.jar
+```
+or if you want to run it with Gradle:
+```bash
+    ./gradlew runQuarkus
+```
+and with virtual threads:
+```bash
+    ./gradlew runQuarkusVirtual
+```
 
 ## Running Benchmarks
 
