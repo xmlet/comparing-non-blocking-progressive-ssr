@@ -256,7 +256,7 @@ All tests were run on a GitHub-hosted Ubuntu 22.04 VM with **4 cores**, **16GB R
 
 ### Performance (JMH)
 
-The performance results show the throughput (number of renders per second) for each template engine. The goal
+The performance results show the throughput (number of renders per millisecond) for each template engine. The goal
 is to measure how well each engine performs in template rendering.
 
 | Presentations                                                      | Stocks                                               |
