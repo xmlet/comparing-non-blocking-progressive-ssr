@@ -277,7 +277,7 @@ a 5-millisecond delay in each route.
 - `HtmlFlow-Susp` (suspendable templates)
 - `Thymeleaf-Rx` (reactive)
 - `Jstachio-Virtual` (virtual threads)
-- Aggregated: `Blocking`, `Virtual`
+- Aggregated: `Blocking`
 
 | Presentations                                                  | Stocks                                           |
 |----------------------------------------------------------------|--------------------------------------------------|
